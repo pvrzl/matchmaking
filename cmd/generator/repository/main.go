@@ -7,6 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type GeneratorInput struct {
@@ -26,7 +29,7 @@ func main() {
 	packageName, _ := reader.ReadString('\n')
 	packageName = strings.TrimSpace(packageName)
 
-	repoName := strings.Title(packageName)
+	repoName := cases.Title(language.English).String(packageName)
 
 	includeDBW := askYesNo(reader, "Include DB writer (DBW)? (y/n): ")
 	includeDBR := askYesNo(reader, "Include DB reader (DBR)? (y/n): ")

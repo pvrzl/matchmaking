@@ -3,6 +3,7 @@ package config
 import (
 	"app/pkg/database"
 	"app/pkg/encryption"
+	"app/pkg/log"
 	"app/pkg/monitoring"
 
 	"github.com/joho/godotenv"
@@ -44,7 +45,11 @@ var (
 )
 
 func (c *Config) readConfig() {
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		log.Logger.Errorf("[Config] error during loading dotenv %s\n", err)
+	}
+
 	c.Name = GetEnvString("NAME", "app")
 	c.Env = GetEnvString("ENV", DEVELOPMENT)
 	c.PORT = GetEnvString("APP_PORT", ":8080")
